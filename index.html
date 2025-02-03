@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard Pro - Advanced Cybersecurity Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .cyberpunk-gradient {
+            background: linear-gradient(45deg, #00f2fe 0%, #4facfe 100%);
+        }
+        .cyber-glow {
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+        .chat-window {
+            display: none;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .logo, h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .cyber-border {
+            border: 2px solid #4facfe;
+            position: relative;
+        }
+        .cyber-border::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px solid rgba(79, 172, 254, 0.3);
+            z-index: -1;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-blue-500/30">
+        <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="logo text-2xl font-bold cyber-glow text-blue-400">
+                Cyber<span class="text-white">Pro</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-blue-400 transition-colors">Home</a>
+                <a href="learningCenter.html" class="hover:text-blue-400 transition-colors">Learning Center</a>
+                
+            </div>
+            
+            <button class="md:hidden text-2xl">
+                <i class="bi bi-list"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 px-4">
+        <div class="container mx-auto mt-16">
+            <div class="cyber-border rounded-lg p-8 bg-gray-800/50 backdrop-blur-sm">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 cyber-glow">
+                    Protect Your Digital Assets
+                </h1>
+                <div class="grid md:grid-cols-3 gap-8 mt-12">
+                    <a href="tools.html">
+                    <div class="cyber-border p-6 rounded-lg bg-gray-800/30 backdrop-blur-sm">
+                        <i class="bi bi-shield-lock text-4xl text-blue-400"></i>
+                        <h3 class="text-xl font-bold mt-4 mb-2">Latest Threats</h3>
+                        <p class="text-gray-300">Real-time monitoring of emerging ransomware threats and cyber attacks.</p>
+                    </div>
+                </a>
+                    <a href="scanner.html"><div class="cyber-border p-6 rounded-lg bg-gray-800/30 backdrop-blur-sm">
+                        <i class="bi bi-graph-up text-4xl text-blue-400"></i>
+                        <h3 class="text-xl font-bold mt-4 mb-2">Attack Statistics</h3>
+                        <p class="text-gray-300">Daily updated statistics on global cyber security incidents.</p>
+                    </div>
+                </a>
+                <a href="quickPrevention.html">
+                    <div class="cyber-border p-6 rounded-lg bg-gray-800/30 backdrop-blur-sm">
+                        <i class="bi bi-lightning text-4xl text-blue-400"></i>
+                        <h3 class="text-xl font-bold mt-4 mb-2">Quick Prevention</h3>
+                        <p class="text-gray-300">Instant access to prevention tips and security measures and provides prevention steps</p>
+                    </div>
+                </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Cybersecurity Matters -->
+    <section class="py-12 px-4 bg-gray-800/30">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center cyber-glow">Why Cybersecurity Matters</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <a href="https://www.snia.org/education/what-is-data-protection" target="_blank">
+                <div class="cyber-border p-6 rounded-lg hover:transform hover:scale-105 transition-transform">
+                    <i class="bi bi-database-lock text-5xl text-blue-400"></i>
+                    <h3 class="text-xl font-bold mt-4 mb-2">Data Protection</h3>
+                    <p class="text-gray-300">Secure your sensitive information from unauthorized access and breaches.</p>
+                </div>
+            </a>
+            <a href="https://www.investopedia.com/terms/s/security.asp" target="_blank">
+                <div class="cyber-border p-6 rounded-lg hover:transform hover:scale-105 transition-transform">
+                    <i class="bi bi-currency-dollar text-5xl text-blue-400"></i>
+                    <h3 class="text-xl font-bold mt-4 mb-2">Financial Security</h3>
+                    <p class="text-gray-300">Prevent financial losses due to cyber attacks and fraud attempts.</p>
+                </div>
+                </a>
+                <a href="https://continuity2.com/blog/guide-to-iso-27001-business-continuity-policy" target="_blank">
+                <div class="cyber-border p-6 rounded-lg hover:transform hover:scale-105 transition-transform">
+                    <i class="bi bi-shield-check text-5xl text-blue-400"></i>
+                    <h3 class="text-xl font-bold mt-4 mb-2">Business Continuity</h3>
+                    <p class="text-gray-300">Maintain operations and protect your reputation with robust security.</p>
+                </div>
+            </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot -->
+    <div id="chatButton" class="fixed bottom-6 right-6 z-50">
+        <div class="cyber-border rounded-full p-4 bg-blue-600 hover:bg-blue-700 cursor-pointer pulse">
+            <i class="bi bi-chat-dots text-2xl"></i>
+        </div>
+        <div class="tooltip absolute bottom-full right-0 mb-2 bg-gray-800 text-white px-4 py-2 rounded-lg">
+            Need Help?
+        </div>
+    </div>
+
+    <div id="chatWindow" class="chat-window fixed bottom-24 right-6 w-80 md:w-96 bg-gray-800 rounded-lg z-50 cyber-border">
+        <div class="p-4 border-b border-blue-500/30">
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold">CyberGuard Assistant</h3>
+                <button id="closeChat" class="text-gray-400 hover:text-white">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </div>
+        <div id="chatMessages" class="p-4 h-80 overflow-y-auto space-y-4">
+            <div class="bg-blue-600/20 p-3 rounded-lg max-w-[80%]">
+                Hi! How can I assist you with cybersecurity?
+            </div>
+        </div>
+        <div class="p-4 border-t border-blue-500/30">
+            <div class="flex gap-2">
+                <input type="text" id="messageInput" class="flex-1 bg-gray-700 border border-blue-500/30 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500" placeholder="Type your message...">
+                <button id="sendMessage" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg">
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-blue-500/30 mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-4">About Us</h4>
+                    <p class="text-gray-400">Protecting digital assets with cutting-edge cybersecurity solutions.</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-blue-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4 text-2xl">
+                        <a href="#" class="hover:text-blue-400"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="hover:text-blue-400"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="hover:text-blue-400"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="hover:text-blue-400"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Newsletter</h4>
+                    <div class="flex">
+                        <input type="email" placeholder="Enter your email" class="bg-gray-800 border border-blue-500/30 rounded-l-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg">
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Chatbot functionality
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessage = document.getElementById('sendMessage');
+        const chatMessages = document.getElementById('chatMessages');
+
+        chatButton.addEventListener('click', () => {
+            chatWindow.style.display = 'block';
+            chatButton.style.display = 'none';
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatWindow.style.display = 'none';
+            chatButton.style.display = 'block';
+        });
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = isUser ? 
+                'bg-blue-600 p-3 rounded-lg max-w-[80%] ml-auto' : 
+                'bg-blue-600/20 p-3 rounded-lg max-w-[80%]';
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        const handleSendMessage = async () => {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, true);
+            messageInput.value = '';
+
+            // Simulate chatbot response
+            const response = await fetch('https://r0c8kgwocscg8gsokogwwsw4.zetaverse.one/ai', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer XnDRSUIYhCS9gvE0x1Jw0tLAuSf1',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    messages: [{
+                        role: 'user',
+                        content: [{
+                            type: 'text',
+                            text: message
+                        }]
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            if (data.message) {
+                addMessage(data.message);
+            } else {
+                addMessage("I apologize, but I'm having trouble processing your request. Please try again later.");
+            }
+        };
+
+        sendMessage.addEventListener('click', handleSendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSendMessage();
+            }
+        });
+
+        // Mobile menu toggle
+        const menuButton = document.querySelector('button.md\\:hidden');
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'md:hidden fixed inset-0 bg-gray-900/95 backdrop-blur-sm z-40 transform transition-transform duration-300 translate-x-full';
+        mobileMenu.innerHTML = `
+            <div class="p-4 space-y-4">
+                <a href="#" class="block py-2 hover:text-blue-400">Home</a>
+                <a href="#" class="block py-2 hover:text-blue-400">Learning Center</a>
+                <a href="#" class="block py-2 hover:text-blue-400">Backup Solutions</a>
+                <a href="#" class="block py-2 hover:text-blue-400">Blog</a>
+            </div>
+        `;
+        document.body.appendChild(mobileMenu);
+
+        menuButton.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('translate-x-full')) {
+                mobileMenu.classList.remove('translate-x-full');
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+            }
+        });
+    </script>
+</body>
+</html>

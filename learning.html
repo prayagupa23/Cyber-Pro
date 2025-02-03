@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Learning Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #0a0a1f;
+            color: #00ff9d;
+        }
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .cyber-border {
+            border: 2px solid #00ff9d;
+            box-shadow: 0 0 10px #00ff9d;
+        }
+        .cyber-glow {
+            text-shadow: 0 0 5px #00ff9d;
+        }
+        .quest-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px #00ff9d;
+            transition: all 0.3s ease;
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #00ff9d 0%, #0066ff 100%);
+            box-shadow: 0 0 10px #00ff9d;
+        }
+        .glitch-effect:hover {
+            animation: glitch 0.3s linear infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+        .glow-button {
+            background: linear-gradient(90deg, #ff0080, #ff6600);
+            color: white;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px #ff6600;
+            animation: pulse 1.5s infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glow-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #ff6600;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px #ff6600; }
+            50% { box-shadow: 0 0 25px #ff6600; }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <!-- Header Section -->
+    <header class="text-center mb-10">
+        <h1 class="orbitron text-4xl md:text-6xl font-bold cyber-glow mb-4">Level Up Your Cybersecurity Skills!</h1>
+        <p class="text-xl text-blue-300">Master ransomware prevention, earn rewards, become a cyber defender</p>
+    </header>
+
+    <!-- User Progress Section -->
+    <div class="cyber-border rounded-lg p-6 mb-8 bg-opacity-20 bg-black">
+        <div class="flex flex-wrap justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <h2 class="orbitron text-2xl mb-2">AGENT STATUS</h2>
+                <p>Level: <span id="userLevel">5</span> | Points: <span id="userPoints">2500</span></p>
+            </div>
+            <div class="w-full md:w-1/2">
+                <div class="bg-gray-800 h-4 rounded-full">
+                    <div class="progress-bar h-full rounded-full" style="width: 60%"></div>
+                </div>
+                <p class="text-right text-sm mt-1">3000 XP to next level</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Quests Section -->
+        <div class="md:col-span-2">
+            <h2 class="orbitron text-2xl mb-4">ACTIVE MISSIONS</h2>
+            <div class="grid gap-4">
+                <div class="quest-card cyber-border rounded-lg p-4 bg-opacity-20 bg-black">
+                    <div class="flex justify-between items-center">
+                        <h3 class="orbitron text-xl">Ransomware Basics</h3>
+                        <span class="text-yellow-400">+500 XP</span>
+                    </div>
+                    <p class="my-2 text-blue-300">Learn fundamental concepts of ransomware protection</p>
+                    <button class="glow-button px-4 py-2 rounded"><a href="quest.html">Start Quest</a></button>
+                </div>
+
+                <div class="quest-card cyber-border rounded-lg p-4 bg-opacity-20 bg-black">
+                    <div class="flex justify-between items-center">
+                        <h3 class="orbitron text-xl">Backup Defender</h3>
+                        <span class="text-yellow-400">+750 XP</span>
+                    </div>
+                    <p class="my-2 text-blue-300">Master data backup strategies and recovery procedures</p>
+                    <button class="glow-button px-4 py-2 rounded">Start Quest</button>
+                </div>
+
+                <div class="quest-card cyber-border rounded-lg p-4 bg-opacity-20 bg-black opacity-50">
+                    <div class="flex justify-between items-center">
+                        <h3 class="orbitron text-xl">Crisis Response</h3>
+                        <span class="text-yellow-400">+1000 XP</span>
+                    </div>
+                    <p class="my-2 text-blue-300">Complete level 5 to unlock this mission</p>
+                    <button class="bg-gray-600 cursor-not-allowed text-white px-4 py-2 rounded" disabled>Locked</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Leaderboard -->
+            <div class="cyber-border rounded-lg p-4 bg-opacity-20 bg-black">
+                <h2 class="orbitron text-2xl mb-4">TOP AGENTS</h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-yellow-400">1. CyberPro</span>
+                        <span>9500 XP</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400">2. DataGuardian</span>
+                        <span>8200 XP</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-orange-400">3. ByteDefender</span>
+                        <span>7800 XP</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badges -->
+            <div class="cyber-border rounded-lg p-4 bg-opacity-20 bg-black">
+                <h2 class="orbitron text-2xl mb-4">YOUR BADGES</h2>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div class="p-2">
+                        <i class="bi bi-shield-check text-3xl text-green-400"></i>
+                        <p class="text-xs mt-1">Defender</p>
+                    </div>
+                    <div class="p-2">
+                        <i class="bi bi-cpu text-3xl text-blue-400"></i>
+                        <p class="text-xs mt-1">Tech Savvy</p>
+                    </div>
+                    <div class="p-2 opacity-50">
+                        <i class="bi bi-lock text-3xl text-gray-400"></i>
+                        <p class="text-xs mt-1">Locked</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

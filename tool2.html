@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Dark Web Scanner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+        }
+        .neon-glow {
+            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff;
+        }
+        .cyber-input {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #0ff;
+            color: #0ff;
+        }
+        .cyber-input:focus {
+            box-shadow: 0 0 15px #0ff;
+        }
+        .cyber-button {
+            background: linear-gradient(45deg, #0ff, #00ffaa);
+            transition: all 0.3s ease;
+        }
+        .cyber-button:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #0ff;
+        }
+        .cyber-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .result-card {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid #0ff;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scanner-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0ff, transparent);
+            animation: scan 1.5s linear infinite;
+        }
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(100px); }
+            100% { transform: translateY(0); }
+        }
+        .glitch {
+            animation: glitch 1s linear infinite;
+        }
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px, 0) skew(0deg); }
+            4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+            62% { transform: translate(0, 0) skew(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <div x-data="darkWebScanner" class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl md:text-6xl text-center mb-8 text-cyan-400 neon-glow glitch">DARK WEB SCANNER</h1>
+        
+        <div class="max-w-md mx-auto bg-black/50 p-6 rounded-lg border border-cyan-400 backdrop-blur-sm">
+            <form @submit.prevent="scanDarkWeb" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-cyan-400 mb-2">Email Address</label>
+                    <input type="email" id="email" x-model="email" required 
+                           class="w-full p-3 rounded cyber-input focus:outline-none" 
+                           placeholder="Enter email to scan...">
+                </div>
+                
+                <div>
+                    <label for="phone" class="block text-cyan-400 mb-2">Phone Number</label>
+                    <input type="tel" id="phone" x-model="phone" required 
+                           class="w-full p-3 rounded cyber-input focus:outline-none" 
+                           pattern="[0-9]+"
+                           placeholder="Enter phone number...">
+                </div>
+
+                <button type="submit" 
+                        :disabled="isLoading"
+                        class="w-full cyber-button text-black font-bold py-3 px-6 rounded flex items-center justify-center">
+                    <template x-if="!isLoading">
+                        <span><i class="bi bi-search me-2"></i> SCAN DARK WEB</span>
+                    </template>
+                    <template x-if="isLoading">
+                        <span class="flex items-center">
+                            <i class="bi bi-arrow-repeat animate-spin me-2"></i>
+                            SCANNING...
+                        </span>
+                    </template>
+                </button>
+            </form>
+        </div>
+
+        <div x-show="isLoading" 
+             class="relative h-24 mt-8 overflow-hidden bg-black/20 rounded-lg border border-cyan-400">
+            <div class="scanner-line"></div>
+            <p class="text-cyan-400 text-center mt-8 animate-pulse">SCANNING DARK WEB DATABASES...</p>
+        </div>
+
+        <template x-if="error">
+            <div class="mt-8 result-card p-4 rounded-lg text-red-400 text-center">
+                <i class="bi bi-x-circle text-3xl mb-2"></i>
+                <p x-text="error"></p>
+            </div>
+        </template>
+
+        <div x-show="results.length > 0" class="mt-8 space-y-4">
+            <template x-for="(breach, index) in results" :key="index">
+                <div class="result-card p-4 rounded-lg text-cyan-400">
+                    <div class="flex items-center mb-2">
+                        <i class="bi bi-exclamation-triangle-fill text-red-500 text-xl mr-2"></i>
+                        <h3 class="text-xl font-bold" x-text="breach.name || 'Unknown Source'"></h3>
+                    </div>
+                    <template x-if="breach.details">
+                        <p class="mb-2" x-text="'Found in: ' + breach.details"></p>
+                    </template>
+                    <template x-if="breach.sources">
+                        <div>
+                            <p class="mb-1">Sources:</p>
+                            <ul class="list-disc list-inside">
+                                <template x-for="source in breach.sources" :key="source">
+                                    <li x-text="source"></li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                    <template x-if="breach.hasPassword">
+                        <p class="mt-2 text-red-400">⚠️ Password was exposed in this breach!</p>
+                    </template>
+                </div>
+            </template>
+        </div>
+
+        <template x-if="!isLoading && results.length === 0 && !error">
+            <div class="mt-8 result-card p-4 rounded-lg text-green-400 text-center">
+                <i class="bi bi-shield-check text-3xl mb-2"></i>
+                <p>No breaches found! Your data appears to be safe.</p>
+            </div>
+        </template>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('darkWebScanner', () => ({
+                email: '',
+                phone: '',
+                isLoading: false,
+                results: [],
+                error: null,
+
+                async scanDarkWeb() {
+                    this.isLoading = true;
+                    this.error = null;
+                    this.results = [];
+
+                    try {
+                        // Store scan attempt in MongoDB
+                        await fetch('https://r0c8kgwocscg8gsokogwwsw4.zetaverse.one/mongodb', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': 'Bearer XnDRSUIYhCS9gvE0x1Jw0tLAuSf1',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                appSlug: 'dark-web-scanner-001',
+                                action: 'create',
+                                collection: 'scans',
+                                data: {
+                                    email: this.email,
+                                    phone: this.phone,
+                                    timestamp: new Date().toISOString()
+                                }
+                            })
+                        });
+
+                        // Check email breaches
+                        const emailResponse = await fetch(`https://breachdirectory.p.rapidapi.com/?func=auto&term=${encodeURIComponent(this.email)}`, {
+                            method: 'GET',
+                            headers: {
+                                'x-rapidapi-host': 'breachdirectory.p.rapidapi.com',
+                                'x-rapidapi-key': '2ef995a057mshff81edeca637a0fp183e58jsndd40283ee5b7'
+                            }
+                        });
+
+                        const data = await emailResponse.json();
+                        
+                        if (data.success === false) {
+                            throw new Error(data.message || 'API request failed');
+                        }
+
+                        if (data.result && data.result.length > 0) {
+                            this.results = data.result.map(breach => ({
+                                name: breach.name || 'Data Breach',
+                                details: breach.line,
+                                sources: breach.sources,
+                                hasPassword: breach.has_password
+                            }));
+                        }
+
+                    } catch (err) {
+                        this.error = 'An error occurred while scanning. Please try again later.';
+                        console.error('Scan error:', err);
+                    } finally {
+                        this.isLoading = false;
+                    }
+                }
+            }));
+        });
+    </script>
+</body>
+</html>

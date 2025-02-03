@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ransomware Prevention Quest</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/confetti-js"></script>
+
+    <style>
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #0a0a1f;
+            color: #00ff9d;
+        }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .cyber-border {
+            border: 2px solid #00ff9d;
+            box-shadow: 0 0 10px #00ff9d;
+        }
+        .cyber-glow { text-shadow: 0 0 5px #00ff9d; }
+        .answer-option:hover {
+            background: rgba(0, 255, 157, 0.2);
+            transform: translateX(10px);
+            transition: all 0.3s ease;
+        }
+        .correct-answer {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: #00ff00;
+        }
+        .wrong-answer {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+        }
+        .terminal-text {
+            overflow: hidden;
+            border-right: .15em solid #00ff9d;
+            white-space: nowrap;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00ff9d; }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <div id="quizContainer" class="container mx-auto max-w-4xl">
+        <!-- Progress Header -->
+        <div class="cyber-border rounded-lg p-4 mb-6 bg-opacity-20 bg-black">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="orbitron text-xl">Quest Progress</h2>
+                    <p>Question <span id="currentQuestion">1</span>/5</p>
+                </div>
+                <div class="text-right">
+                    <p>Score: <span id="score">0</span></p>
+                    <p>Time: <span id="timer">60</span>s</p>
+                </div>
+            </div>
+            <div class="mt-3 bg-gray-800 h-2 rounded-full">
+                <div id="progressBar" class="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full transition-all duration-500" style="width: 20%"></div>
+            </div>
+        </div>
+
+        <!-- Question Container -->
+        <div id="questionBox" class="cyber-border rounded-lg p-6 mb-6 bg-opacity-20 bg-black">
+            <h3 id="questionText" class="text-xl mb-6 terminal-text"></h3>
+            <div id="answerOptions" class="space-y-4">
+                <!-- Answer options will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Feedback Panel -->
+        <div id="feedbackPanel" class="cyber-border rounded-lg p-4 bg-opacity-20 bg-black hidden">
+            <h3 class="orbitron text-xl mb-2">Mission Report</h3>
+            <p id="feedbackText" class="mb-4"></p>
+            <button id="nextButton" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">Continue Mission</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the first step in preventing ransomware attacks?",
+                options: [
+                    "Regular system backups",
+                    "Installing antivirus software",
+                    "Updating operating system",
+                    "Creating complex passwords"
+                ],
+                correct: 2,
+                explanation: "Keeping your operating system updated is crucial as it patches security vulnerabilities that ransomware could exploit."
+            },
+            {
+                question: "Which file extension is commonly associated with ransomware?",
+                options: [
+                    ".txt",
+                    ".exe",
+                    ".docx",
+                    ".jpg"
+                ],
+                correct: 1,
+                explanation: ".exe files are commonly used to distribute ransomware. Always be cautious when downloading executable files."
+            },
+            {
+                question: "What is the best practice for backing up critical data?",
+                options: [
+                    "Keep backups on the same drive",
+                    "Only backup monthly",
+                    "Use cloud storage only",
+                    "Follow the 3-2-1 backup rule"
+                ],
+                correct: 3,
+                explanation: "The 3-2-1 rule: Keep 3 copies of data, on 2 different types of storage, with 1 copy off-site."
+            },
+            {
+                question: "Which email attachment type should you be most suspicious of?",
+                options: [
+                    "PDF files",
+                    "Macro-enabled documents",
+                    "Plain text files",
+                    "Image files"
+                ],
+                correct: 1,
+                explanation: "Macro-enabled documents are common vectors for ransomware attacks. Always be cautious with these files."
+            },
+            {
+                question: "What should you do first if you suspect a ransomware infection?",
+                options: [
+                    "Pay the ransom immediately",
+                    "Delete system files",
+                    "Disconnect from network",
+                    "Run system scan"
+                ],
+                correct: 2,
+                explanation: "Immediately disconnecting from the network can prevent the ransomware from spreading to other systems."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let timer = 60;
+        let timerInterval;
+
+        function startQuiz() {
+            displayQuestion(currentQuestion);
+            startTimer();
+        }
+
+        function displayQuestion(index) {
+            const question = questions[index];
+            document.getElementById('questionText').textContent = question.question;
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, i) => {
+                const button = document.createElement('button');
+                button.className = 'answer-option w-full text-left p-4 cyber-border rounded-lg hover:bg-opacity-20 hover:bg-green-500 transition-all duration-300';
+                button.textContent = option;
+                button.onclick = () => checkAnswer(i);
+                optionsContainer.appendChild(button);
+            });
+
+            updateProgress();
+        }
+
+        function checkAnswer(selectedIndex) {
+            const correct = questions[currentQuestion].correct === selectedIndex;
+            const options = document.querySelectorAll('.answer-option');
+            
+            options.forEach(option => option.disabled = true);
+            options[selectedIndex].classList.add(correct ? 'correct-answer' : 'wrong-answer');
+            options[questions[currentQuestion].correct].classList.add('correct-answer');
+
+            if (correct) score += 100;
+            
+            document.getElementById('score').textContent = score;
+            document.getElementById('feedbackText').textContent = questions[currentQuestion].explanation;
+            document.getElementById('feedbackPanel').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            document.getElementById('feedbackPanel').classList.add('hidden');
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                displayQuestion(currentQuestion);
+            } else {
+                endQuiz();
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestion + 1;
+            document.getElementById('progressBar').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timer--;
+                document.getElementById('timer').textContent = timer;
+                if (timer <= 0) endQuiz();
+            }, 1000);
+        }
+
+        function endQuiz() {
+            clearInterval(timerInterval);
+            const quizContainer = document.getElementById('quizContainer');
+            quizContainer.innerHTML = `
+                <div class="cyber-border rounded-lg p-6 text-center bg-opacity-20 bg-black">
+                    <h2 class="orbitron text-3xl mb-4">Mission Complete!</h2>
+                    <p class="text-xl mb-4">Final Score: ${score}</p>
+                    <p class="mb-4">Time Remaining: ${timer}s</p>
+                    <button onclick="saveScore()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">
+                        Save & Return
+                    </button>
+                </div>
+            `;
+        }
+
+        function saveScore() {
+            localStorage.setItem('userXP', parseInt(localStorage.getItem('userXP') || 0) + score);
+            window.location.href = 'learningCenter.html';
+        }
+
+        document.getElementById('nextButton').addEventListener('click', nextQuestion);
+        startQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberPro - Vulnerability Scanner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: #0a0a1f;
+            color: #00ff9d;
+        }
+        .cyber-header {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .glow {
+            box-shadow: 0 0 15px #00ff9d40;
+        }
+        .scan-animation {
+            animation: scan 2s linear infinite;
+        }
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+            100% { transform: translateY(0); }
+        }
+        .cyber-border {
+            border: 1px solid #00ff9d;
+            position: relative;
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid #0a0a1f;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="cyber-header text-4xl md:text-6xl font-bold text-[#00ff9d] mb-2">CYBERPRO</h1>
+            <p class="text-cyan-400">Advanced Vulnerability Scanner</p>
+        </header>
+
+        <!-- Main Scanner Interface -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Input Section -->
+            <div class="cyber-border bg-[#0f0f2b] p-6 rounded-lg glow">
+                <h2 class="cyber-header text-2xl mb-6">System Parameters</h2>
+                <form id="scanForm" class="space-y-4">
+                    <div>
+                        <label class="block mb-2">IP Address / Hostname</label>
+                        <input type="text" id="ipAddress" class="w-full bg-[#1a1a3a] border border-[#00ff9d] rounded p-2 text-white" placeholder="192.168.1.1">
+                    </div>
+                    <div>
+                        <label class="block mb-2">System Type</label>
+                        <select id="systemType" class="w-full bg-[#1a1a3a] border border-[#00ff9d] rounded p-2 text-white">
+                            <option value="windows">Windows Server</option>
+                            <option value="linux">Linux Server</option>
+                            <option value="network">Network Device</option>
+                            <option value="web">Web Application</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2">Port Range</label>
+                        <input type="text" id="portRange" class="w-full bg-[#1a1a3a] border border-[#00ff9d] rounded p-2 text-white" placeholder="20-1024">
+                    </div>
+                    <div>
+                        <label class="block mb-2">Scan Intensity</label>
+                        <select id="scanIntensity" class="w-full bg-[#1a1a3a] border border-[#00ff9d] rounded p-2 text-white">
+                            <option value="quick">Quick Scan</option>
+                            <option value="standard">Standard Scan</option>
+                            <option value="deep">Deep Scan</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-[#00ff9d] text-[#0a0a1f] py-3 rounded font-bold hover:bg-[#00cc7a] transition-colors">
+                        START SCAN
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="cyber-border bg-[#0f0f2b] p-6 rounded-lg glow hidden">
+                <h2 class="cyber-header text-2xl mb-6">Scan Results</h2>
+                <div id="scanProgress" class="mb-6">
+                    <div class="flex justify-between mb-2">
+                        <span>Scan Progress</span>
+                        <span id="progressPercentage">0%</span>
+                    </div>
+                    <div class="w-full bg-[#1a1a3a] rounded-full h-2.5">
+                        <div id="progressBar" class="bg-[#00ff9d] h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div id="securityScore" class="mb-6">
+                    <div class="flex justify-between mb-2">
+                        <span>Security Score</span>
+                        <span id="scorePercentage">0%</span>
+                    </div>
+                    <div class="w-full bg-[#1a1a3a] rounded-full h-2.5">
+                        <div id="scoreBar" class="bg-red-500 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div id="vulnerabilities" class="space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mockVulnerabilities = {
+            windows: [
+                { severity: 'high', title: 'SMB Protocol Vulnerability', description: 'SMBv1 is enabled and vulnerable to WannaCry ransomware.', solution: 'Disable SMBv1 and update to SMBv3.' },
+                { severity: 'medium', title: 'RDP Exposed', description: 'Remote Desktop Protocol is exposed to the internet.', solution: 'Use VPN or restrict RDP access to specific IPs.' },
+                { severity: 'low', title: 'Windows Defender Status', description: 'Real-time protection is disabled.', solution: 'Enable real-time protection in Windows Defender.' }
+            ],
+            linux: [
+                { severity: 'high', title: 'SSH Root Login', description: 'Root login via SSH is enabled.', solution: 'Disable root SSH login in /etc/ssh/sshd_config.' },
+                { severity: 'medium', title: 'Outdated Packages', description: 'Several system packages need updates.', solution: 'Run system update and upgrade.' },
+                { severity: 'low', title: 'File Permissions', description: 'Incorrect permissions on sensitive files.', solution: 'Review and correct file permissions.' }
+            ],
+            network: [
+                { severity: 'high', title: 'Open Ports', description: 'Unnecessary ports are open to the internet.', solution: 'Close unused ports and implement firewall rules.' },
+                { severity: 'medium', title: 'Weak Encryption', description: 'Using deprecated SSL/TLS versions.', solution: 'Upgrade to TLS 1.3 and disable older versions.' },
+                { severity: 'low', title: 'SNMP Configuration', description: 'Using default SNMP community strings.', solution: 'Change default SNMP credentials.' }
+            ],
+            web: [
+                { severity: 'high', title: 'SQL Injection', description: 'Application vulnerable to SQL injection attacks.', solution: 'Implement prepared statements and input validation.' },
+                { severity: 'medium', title: 'XSS Vulnerability', description: 'Cross-site scripting vulnerabilities detected.', solution: 'Implement proper output encoding.' },
+                { severity: 'low', title: 'Missing Security Headers', description: 'Important security headers are not set.', solution: 'Add recommended security headers.' }
+            ]
+        };
+
+        document.getElementById('scanForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            startScan();
+        });
+
+        function startScan() {
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.classList.remove('hidden');
+            
+            let progress = 0;
+            const systemType = document.getElementById('systemType').value;
+            const vulnerabilitiesDiv = document.getElementById('vulnerabilities');
+            vulnerabilitiesDiv.innerHTML = '';
+
+            const progressInterval = setInterval(() => {
+                progress += 1;
+                updateProgress(progress);
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    displayResults(systemType);
+                }
+            }, 50);
+        }
+
+        function updateProgress(progress) {
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressPercentage').textContent = `${progress}%`;
+        }
+
+        function displayResults(systemType) {
+            const vulnerabilities = mockVulnerabilities[systemType];
+            const vulnerabilitiesDiv = document.getElementById('vulnerabilities');
+            let securityScore = 100;
+
+            vulnerabilities.forEach(vuln => {
+                const severityColor = {
+                    high: 'red-500',
+                    medium: 'yellow-500',
+                    low: 'green-500'
+                }[vuln.severity];
+
+                if (vuln.severity === 'high') securityScore -= 20;
+                if (vuln.severity === 'medium') securityScore -= 10;
+                if (vuln.severity === 'low') securityScore -= 5;
+
+                vulnerabilitiesDiv.innerHTML += `
+                    <div class="cyber-border bg-[#1a1a3a] p-4 rounded">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-3 h-3 rounded-full bg-${severityColor}"></span>
+                            <h3 class="font-bold">${vuln.title}</h3>
+                        </div>
+                        <p class="text-sm mb-2">${vuln.description}</p>
+                        <p class="text-sm text-cyan-400"><strong>Solution:</strong> ${vuln.solution}</p>
+                    </div>
+                `;
+            });
+
+            updateSecurityScore(Math.max(0, securityScore));
+        }
+
+        function updateSecurityScore(score) {
+            const scoreBar = document.getElementById('scoreBar');
+            const scorePercentage = document.getElementById('scorePercentage');
+            
+            scoreBar.style.width = `${score}%`;
+            scorePercentage.textContent = `${score}%`;
+            
+            if (score < 50) {
+                scoreBar.classList.remove('bg-yellow-500', 'bg-green-500');
+                scoreBar.classList.add('bg-red-500');
+            } else if (score < 80) {
+                scoreBar.classList.remove('bg-red-500', 'bg-green-500');
+                scoreBar.classList.add('bg-yellow-500');
+            } else {
+                scoreBar.classList.remove('bg-red-500', 'bg-yellow-500');
+                scoreBar.classList.add('bg-green-500');
+            }
+        }
+    </script>
+</body>
+</html>
