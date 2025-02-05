@@ -12,3 +12,9 @@
 ✅ Interactive Quizzes & Learning - Test your knowledge on cybersecurity concepts.
 ✅ Simple & User-Friendly UI - Designed for beginners and experts alike.
 ✅ Resources & Best Practices - Get tips on how to secure your devices.
+
+Created by, winRARiors:
+1.Team Leader: Aayush V. Sadaye [https://github.com/Aayush-innovates]
+2.Member 1: Prayag G. Upadhyaya [https://github.com/prayagupa23]
+3.Member 2: Parth S. Salunke [https://github.com/sparth292]
+4.Member 3: Deep M. Bandekar [https://github.com/Deep061007]
